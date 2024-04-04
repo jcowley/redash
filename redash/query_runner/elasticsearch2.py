@@ -115,7 +115,6 @@ class ElasticSearch2(BaseHTTPQueryRunner):
         result_rows = []
         result_columns_index = {c["name"]: c for c in result_columns}
         result_fields_index = {}
-
         def add_column_if_needed(column_name, value=None):
             if column_name not in result_columns_index:
                 result_columns.append(
@@ -221,6 +220,7 @@ class ElasticSearch2(BaseHTTPQueryRunner):
                 row = {}
 
                 fields_parameter_name = "_source" if "_source" in h else "fields"
+                h[fields_parameter_name]["_score"] = h["_score"]
                 for column in h[fields_parameter_name]:
                     if result_fields and column not in result_fields_index:
                         continue
